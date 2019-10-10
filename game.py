@@ -34,14 +34,24 @@ def main():
     print()
     print()
     # Welcome message
+    print("██▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄██ ")
     print("Welcome to the Dark Zone")
-    print("You wake up with no memories and the place is pitch black." +
-          " You are terrified")
+    print("""Life is normal.  Or so you think.  
+One day you are strolling along outside, enjoying the nice weather.  
+Then your vision fades to black and you fall to the ground and pass out.  
+When you wake up, you are somewhere else, somewhere you have never been before, with no memories of how you got there. 
+You are in a dimly lit room.
+You are terrified.""")
+
+    print()
+    print()
 
     # Print location and score
     print(bedroom)
     scorePrint()
     input("Press enter to continue")
+    print()
+    print()
 
     # Moves to next location and increases score.
     currentLocation += 1
@@ -49,18 +59,24 @@ def main():
     print(hallway)
     scorePrint()
     input("Press enter to continue")
+    print()
+    print()
 
     currentLocation += 1
     score += 5
     print(stairway)
     scorePrint()
     input("Press enter to continue")
+    print()
+    print()
 
     currentLocation += 1
     score += 5
     print(street)
     scorePrint()
     input("Press enter to continue")
+    print()
+    print()
 
     currentLocation += 1
     score += 5
