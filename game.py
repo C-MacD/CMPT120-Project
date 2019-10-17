@@ -9,17 +9,17 @@ def main():
     currentLocation = 0
 
     bedroom = "You are standing in a creepy old smelly " + \
-        "bedroom. Filled with cockroaches crawling all over the bed sheets. You start to hear footsteps " + "coming towards you."
+        "bedroom filled with cockroaches crawling all over the bedsheets. You start to hear footsteps coming towards you."
 
-    hallway = "You run into a hallway" +  ". The walls are filled claw marks all over them. Water is dripping from the ceiling" +\
+    hallway = "You run into a hallway. The walls are filled claw marks all over them. Water is dripping from the ceiling" +\
         ". Someone whispers to you and tells you to get out."
 
-    stairway = "You end up in a dark noise staircase. " "Rats squicky and voices scream at you, making you scared and terrfied" + ". You tell yourself to find an exit but you are lost and " + "don't know " + \
-        "which stairway can lead to the exit. You see a little" + " girl run down" + \
+    stairway = "You end up in a dark noisy staircase. Rats squeak and voices scream at you, making you scared and terrified. You tell yourself to find an exit but you are lost and don't know " + \
+        "which stairway can lead to the exit. You see a little girl run down" + \
         " the stairway on your left and you decide to follow her."
 
-    street = "You are standing in a street with nobody walking or no cars passing by. " "Only one light is one but its flickering back in forth" + ". The little girl you followed has led you outside. " + "The little girl is waiting for you on the other side of the " + \
-        "street. As you get closer, you reach out to her and check if " + "she is okay. The little girl slowly opens her mouth and shows " + \
+    street = "You are standing in a street with nobody walking or no cars passing by. Only one light is on and it is flickering. The little girl you followed has led you outside. The little girl is waiting for you on the other side of the " + \
+        "street. As you get closer, you reach out to her and check if she is okay. The little girl slowly opens her mouth and shows " + \
         "her sharp teeth and rips your arm off. You are never seen again."
 
     def scorePrint():
