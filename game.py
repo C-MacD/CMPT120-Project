@@ -5,8 +5,7 @@
 def main():
     # Initialize some variables.
     score = 0
-    #locations = ["bedroom", "hallway", "stairway", "street"]
-    currentLocation = 0
+    currentLocation = ""
 
     bedroom = "You are standing in a creepy old smelly " + \
         "bedroom filled with cockroaches crawling all over the bedsheets. You start to hear footsteps coming towards you."
@@ -22,19 +21,27 @@ def main():
         "street. As you get closer, you reach out to her and check if she is okay. The little girl slowly opens her mouth and shows " + \
         "her sharp teeth and rips your arm off. You are never seen again."
 
-    def scorePrint():
-        """This function prints the score.
-
-        Returns:
-            Prints a message with the score.
-        """
+    # This function does lost of stuff.
+    # Parameters are the location you want and the current score.
+    # It increases the score, prints the location, prints the score, prints empty lines for formatting.
+    # It returns the location and new score so you can update the main variables.
+    def handleLocation(location, score):
+        score += 5
+        print(location)
         print("Your score is", score)
+        input("Press enter to continue")
+        print()
+        print()
+        return location, score
+
+    # ----------------------------------------------------------
+    # ----------------------------------------------------------
 
     # "Main" code starts here
     print()
     print()
     # Welcome message
-    print("██▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄██ ")
+    print("██▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄██ ")
     print("Welcome to the Dark Zone")
     print("""Life is normal.  Or so you think.  
 One day you are strolling along outside, enjoying the nice weather.  
@@ -44,42 +51,14 @@ You are in a dimly lit room.
 You are terrified.""")
 
     print()
-    print()
 
-    # Print location and score
-    print(bedroom)
-    scorePrint()
-    input("Press enter to continue")
-    print()
-    print()
+    currentLocation, score = handleLocation(bedroom, score)
 
-    # Moves to next location and increases score.
-    currentLocation += 1
-    score += 5
-    print(hallway)
-    scorePrint()
-    input("Press enter to continue")
-    print()
-    print()
+    currentLocation, score = handleLocation(hallway, score)
 
-    currentLocation += 1
-    score += 5
-    print(stairway)
-    scorePrint()
-    input("Press enter to continue")
-    print()
-    print()
+    currentLocation, score = handleLocation(stairway, score)
 
-    currentLocation += 1
-    score += 5
-    print(street)
-    scorePrint()
-    input("Press enter to continue")
-    print()
-    print()
-
-    currentLocation += 1
-    score += 5
+    currentLocation, score = handleLocation(street, score)
 
     print()
     # Ending message
