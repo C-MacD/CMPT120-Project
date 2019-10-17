@@ -6,6 +6,8 @@ def main():
     # Initialize some variables.
     score = 0
     currentLocation = ""
+    command = ""
+    generalCommands = ["quit", "help"]
 
     bedroom = "You are standing in a creepy old smelly " + \
         "bedroom filled with cockroaches crawling all over the bedsheets. You start to hear footsteps coming towards you."
@@ -53,6 +55,11 @@ You are terrified.""")
     print()
 
     currentLocation, score = handleLocation(bedroom, score)
+
+    command = input("Enter a command: ").lower
+    while(command not in generalCommands):
+        command = str(
+            input("Enter a valid command.  Enter 'help' for a list: ")).lower()
 
     currentLocation, score = handleLocation(hallway, score)
 
