@@ -34,23 +34,31 @@ def main():
         print()
         return location, score
 
+    def title():
+        print()
+        print()
+        # Welcome message
+        print("██▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄██ ")
+        print("Welcome to the Dark Zone")
+        print("""Life is normal.  Or so you think.  
+    One day you are strolling along outside, enjoying the nice weather.  
+    Then your vision fades to black and you fall to the ground and pass out.  
+    When you wake up, you are somewhere else, somewhere you have never been before, with no memories of how you got there. 
+    You are in a dimly lit room.
+    You are terrified.""")
+        print()
+
+    def ending():
+        print("Thanks for playing.")
+        print("Copyright 2019.  Email the authors at " +
+              "Colin.MacDonald1[at]marist.edu or Giovanni.Cordova1[at]marist.edu")
+
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
     # "Main" code starts here
-    print()
-    print()
-    # Welcome message
-    print("██▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄██ ")
-    print("Welcome to the Dark Zone")
-    print("""Life is normal.  Or so you think.  
-One day you are strolling along outside, enjoying the nice weather.  
-Then your vision fades to black and you fall to the ground and pass out.  
-When you wake up, you are somewhere else, somewhere you have never been before, with no memories of how you got there. 
-You are in a dimly lit room.
-You are terrified.""")
 
-    print()
+    title()
 
     currentLocation, score = handleLocation(bedroom, score)
 
@@ -62,9 +70,8 @@ You are terrified.""")
 
     print()
     # Ending message
-    print("Thanks for playing.")
-    print("Copyright 2019.  Email the authors at " +
-          "Colin.MacDonald1[at]marist.edu or Giovanni.Cordova1[at]marist.edu")
+
+    ending()
 
 
 main()
