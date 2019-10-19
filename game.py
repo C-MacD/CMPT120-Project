@@ -7,8 +7,10 @@ def main():
     score = 0
     currentLocation = ""
     command = ""
+    # Commands that can be used any time.
     generalCommands = ["quit", "help"]
 
+    # Descriptions of all the locations.
     bedroom = ("You are standing in a creepy old smelly \n"
                "bedroom filled with cockroaches crawling all over the \n"
                "bedsheets. You start to hear footsteps coming towards you.")
@@ -48,10 +50,10 @@ def main():
         print()
         return location, score
 
+    # Prints the welcome message
     def title():
         print()
         print()
-        # Welcome message
         print("██▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄██ ")
         print("Welcome to the Dark Zone")
         print("Life is normal.  Or so you think.  \n"
@@ -63,11 +65,56 @@ def main():
               "You are in a dimly lit room. You are terrified.")
         print()
 
+    # Prints the copyright and email contact message.
     def ending():
         print("Thanks for playing.")
         print("Copyright 2019.  \n"
               "Email the authors at Colin.MacDonald1[at]marist.edu \n"
               "or Giovanni.Cordova1[at]marist.edu")
+
+    # The parameters are lists of the general and special commands
+    # based on the environment.
+    # It asks the user to input a command.
+    # If that command is in a list, it will process the command.
+    # If it is a special command (in the validCommands list):
+    # It takes the index of the command, prints the item after that index,
+    # and checks for true/false in the item after that.
+    # The format of a valid command is:
+    # [command, what gets printed, True if it breaks out of the loop]
+    def processCommand(generalCommands, validCommands):
+        # Ask for a command
+        command = input("Enter a command: ").lower()
+        # The loop
+        while True:
+            if command == "quit":
+                break
+            elif command == "help":
+                print(generalCommands)
+                # Prints every third item, the commands
+                for i in range(0, len(validCommands), 3):
+                    print(validCommands[i])
+                command = input("Enter a command: ").lower()
+
+            elif command in validCommands:
+                # Finds the item right after the command, the description,
+                # and prints it
+                index = validCommands.index(command)+1
+                print(validCommands[index])
+                # If the item after that is true, break the loop
+                if(validCommands[index+1]):
+                    break
+                command = ""
+            # Bug checker
+            elif (command in generalCommands or command in validCommands):
+                print("You just found a bug!")
+                print("This is a valid command but was not coded in.")
+                command = ""
+            # Gets a new command if you put in something invalid.
+            else:
+                command = str(
+                    input(
+                        "Enter a valid command.  Enter 'help' for a list: "
+                    )).lower()
 
     # ----------------------------------------------------------
     # ----------------------------------------------------------
@@ -78,24 +125,11 @@ def main():
 
     currentLocation, score = handleLocation(bedroom, score)
 
-    validCommands = ["open door"]
-    command = input("Enter a command: ").lower()
-    while True:
-        if command == "quit":
-            break
-        elif command == "help":
-            print(generalCommands, validCommands)
-            command = input("Enter a command: ").lower()
-        elif command=="open door":
-            print("You open the door and enter the next room.")
-            break
-        elif (command in generalCommands or command in validCommands):
-            print("You just found a bug!")
-            print("This is a valid command but was not coded in.")
-            command = ""
-        else:
-            command = str(
-                input("Enter a valid command.  Enter 'help' for a list: ")).lower()
+    # [command, what gets printed, True if it breaks out of the loop]
+    validCommands = [
+        "open door", "You open the door and enter the next room.", True,
+        "jump", "You jump.", False]
+    processCommand(generalCommands, validCommands)
 
     currentLocation, score = handleLocation(hallway, score)
 
