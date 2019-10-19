@@ -78,10 +78,16 @@ def main():
 
     currentLocation, score = handleLocation(bedroom, score)
 
-    command = input("Enter a command: ").lower
-    while(command not in generalCommands):
-        command = str(
-            input("Enter a valid command.  Enter 'help' for a list: ")).lower()
+    command = input("Enter a command: ").lower()
+    while True:
+        if command == "quit":
+            break
+        elif command == "help":
+            print(generalCommands)
+            command = input("Enter a command: ").lower()
+        else:
+            command = str(
+                input("Enter a valid command.  Enter 'help' for a list: ")).lower()
 
     currentLocation, score = handleLocation(hallway, score)
 
