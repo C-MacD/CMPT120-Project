@@ -78,13 +78,21 @@ def main():
 
     currentLocation, score = handleLocation(bedroom, score)
 
+    validCommands = ["open door"]
     command = input("Enter a command: ").lower()
     while True:
         if command == "quit":
             break
         elif command == "help":
-            print(generalCommands)
+            print(generalCommands, validCommands)
             command = input("Enter a command: ").lower()
+        elif command=="open door":
+            print("You open the door and enter the next room.")
+            break
+        elif (command in generalCommands or command in validCommands):
+            print("You just found a bug!")
+            print("This is a valid command but was not coded in.")
+            command = ""
         else:
             command = str(
                 input("Enter a valid command.  Enter 'help' for a list: ")).lower()
