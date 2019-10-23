@@ -47,10 +47,21 @@ def main():
         "go left", "You follow the girl.  \n"
         "Luckily for you, it seems that this is the exit.", "street",
 
-        "go right", "It is a dead end", None,
+        "go right", "You climb the stairs", "bathroom",
 
         "go back", "You turn around and walk back into the hallway",
         "hallway"]
+
+    bathroom = ("All the doors upstairs are locked, except for a bathroom.\n"
+                "The door is propped open with a doorstop so you go in.\n"
+                "It appears to be empty.")
+    bathroomCommands = [
+        "search room", "You find absolutely nothing of interest except for\n"
+        "the fact that someone seems to have stolen all the toilet paper.",
+        None,
+
+        "go back", "You turn around and walk back down the stairs",
+        "stairway"]
 
     street = ("You are standing in a street with nobody walking or no \n"
               "cars passing by. Only one light is on and it is flickering. \n"
@@ -63,7 +74,7 @@ def main():
     streetCommands = [
         "continue", "Well, you made it.", "win",
 
-        "go back", "You turn around and walk back into the stairway",
+        "go back", "You turn around and walk back up the stairs",
         "stairway"]
 
     win = "Congratulations!  You win!!"
@@ -71,12 +82,13 @@ def main():
 
     # The big lists.
     # List of strings.
-    locations = ["bedroom", "hallway", "stairway", "street", "win"]
+    locations = ["bedroom", "hallway", "stairway", "street", "win",
+                 "bathroom"]
     # List of variables
-    locationDescriptions = [bedroom, hallway, stairway, street, win]
+    locationDescriptions = [bedroom, hallway, stairway, street, win, bathroom]
     # List of lists
-    locationCommands = [bedroomCommands, hallwayCommands,
-                        stairwayCommands, streetCommands, winCommands]
+    locationCommands = [bedroomCommands, hallwayCommands, stairwayCommands,
+                        streetCommands, winCommands, bathroomCommands]
 
     # Prints the welcome message
     def title():
