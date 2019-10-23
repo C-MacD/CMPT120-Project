@@ -7,37 +7,50 @@ def main():
     generalCommands = ["quit", "help"]
 
     # The format of a valid command is:
-    # [command, what gets printed, True if it breaks out of the loop,
-    #   the new location]
-    # TODO: The last two fields could be merged.
+    # [command, what gets printed, the new location]
 
     # Descriptions of all the locations.
     # TODO: These all need work.
     bedroom = ("You are standing in a creepy old smelly \n"
                "bedroom filled with cockroaches crawling all over the \n"
-               "bedsheets. You start to hear footsteps coming towards you.")
+               "bedsheets. You start to hear footsteps coming towards you.\n"
+               "There is a flashlight on the ground next to you")
     bedroomCommands = [
-        "open door", "You open the door and enter the next room.",
-        True, "hallway",
+        "equip flashlight", "You grab the flashlight, and turn it on.\n"
+        "Now you can see where you are going.", None,
 
-        "jump", "You jump.", False, None]
+        "open door", "You open the door and enter the next room.",
+        "hallway",
+
+        "jump", "You jump.", None]
 
     hallway = ("You run into a hallway. The walls are covered with claw \n"
                "marks. Water is dripping from the ceiling. \n"
-               "Someone whispers to you and tells you to get out.")
+               "Someone whispers to you and tells you to get out.\n"
+               "You see a knife in a corner")
     hallwayCommands = [
+        "equip knife", "You grab the knife.  You feel slightly safer",
+        None,
+
         "open door", "You open the door and enter the next room.",
-        True, "stairway"]
+        "stairway",
+
+        "go back", "You turn around and walk back into the bedroom",
+        "bedroom"]
 
     stairway = ("You end up in a dark noisy staircase. Rats squeak and \n"
                 "voices scream at you, making you scared and terrified. \n"
                 "You tell yourself to find an exit but you are lost and \n"
                 "don't know which stairway can lead to the exit. \n"
-                "You see a little girl run down the stairway on your left \n"
-                "and you decide to follow her.")
+                "You see a little girl run down the stairway on your left.")
     stairwayCommands = [
-        "open door", "You open the door and enter the next room.",
-        True, "street"]
+        "go left", "You follow the girl.  \n"
+        "Luckily for you, it seems that this is the exit.", "street",
+
+        "go right", "It is a dead end", None,
+
+        "go back", "You turn around and walk back into the hallway",
+        "hallway"]
 
     street = ("You are standing in a street with nobody walking or no \n"
               "cars passing by. Only one light is on and it is flickering. \n"
@@ -48,7 +61,10 @@ def main():
               "shows her sharp teeth and rips your arm off. \n"
               "You are never seen again.")
     streetCommands = [
-        "continue", "Well, you made it.", True, "win"]
+        "continue", "Well, you made it.", "win",
+
+        "go back", "You turn around and walk back into the stairway",
+        "stairway"]
 
     win = "Congratulations!  You win!!"
     winCommands = []
@@ -95,10 +111,9 @@ def main():
     # It takes the index of the command, prints the item after that index,
     # and checks for true/false in the item after that,
     # and then sets the location to whatever is specified.
+    #
     # The format of a valid command is:
-    # [command, what gets printed, True if it breaks out of the loop,
-    #   the new location]
-
+    # [command, what gets printed, the new location]
     def processCommand(generalCommands, locations, locationDescriptions,
                        locationCommands):
         # Some initial stuff specific to this loop
@@ -106,17 +121,24 @@ def main():
         locationIndex = 0
         playGame = True
         validCommand = False
+        visitedLocations = []
 
         while playGame:
             # Should fire once every time entering a new location
-            currentLocation = locations[locationIndex]
+            currentLocation = locations[locationIndex]  # Simple string
             validCommands = locationCommands[locationIndex]
             print()
             print()
             print(locationDescriptions[locationIndex])
-            score += 5
+
+            # Adds 5 points if you have not visited the location before.
+            if currentLocation not in visitedLocations:
+                score += 5
+                visitedLocations.append(currentLocation)
+
             print("Your score is", score)
 
+            # If you win, exit both loops.
             if currentLocation == "win":
                 playGame = False
                 validCommand = True
@@ -135,8 +157,8 @@ def main():
                     print("▼--------▼")
                     print("Here are all the commands you can use")
                     print(generalCommands)
-                    # Prints every fourth item, the commands
-                    for i in range(0, len(validCommands), 4):
+                    # Prints every third item, the commands
+                    for i in range(0, len(validCommands), 3):
                         print(validCommands[i])
                     print("▲--------▲")
 
@@ -146,12 +168,13 @@ def main():
                     print()
                     # Prints the description (the index after the command)
                     print(validCommands[i+1])
-                    # If the item after that is true, break the loop
+
+                    # If the item after that is not "None", break the loop
                     if(validCommands[i+2]):
                         validCommand = True
                         # Sets the new location index to be the same as
                         # the new location.
-                        locationIndex = locations.index(validCommands[i+3])
+                        locationIndex = locations.index(validCommands[i+2])
                     command = ""
 
                 # Bug checker
