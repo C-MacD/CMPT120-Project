@@ -63,6 +63,25 @@ def main():
         "go back", "You turn around and walk back down the stairs",
         "stairway"]
 
+    livingroom = ("As u go down the stairway, you see a livingroom.\n"
+              "All lights are turned off except for a small nightlight"
+              "and your flashlight batteries have died.\n"
+              "Once you step into the livingroom, you feel an evil presence near you.\n"
+              "The wind started to blow really hard that it sounded like someone is banging against the window.\n"
+              "As you try to flick the switch for the lights, you can't \n" 
+              "see where you are steping and trip on the leg of a table." )
+    livingroomCommands = [
+        "look around", "You heard banging on the windows so you take\n"
+        "out you knife but then you realize that it just the wind blowing hard"
+        , None, 
+        
+        "find light switch", "You find the light switch but you trip on\n" 
+        "the leg of the table" , None, 
+        
+        "go back", "You turn around and walk back to the stairs", 
+        "stairway"]
+              
+
     street = ("You are standing in a street with nobody walking or no \n"
               "cars passing by. Only one light is on and it is flickering. \n"
               "The little girl you followed has led you outside. \n"
