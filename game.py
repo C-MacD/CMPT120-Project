@@ -54,16 +54,18 @@ def main():
 
     bathroom = ("All the doors upstairs are locked, except for a bathroom.\n"
                 "The door is propped open with a doorstop so you go in.\n"
-                "It appears to be empty.")
+                "It appears to be empty." 
+                "On the other side of the bathroom you see another," 
+                "which leads into the livingroom")
     bathroomCommands = [
         "search room", "You find absolutely nothing of interest except for\n"
         "the fact that someone seems to have stolen all the toilet paper.",
         None,
 
-        "go back", "You turn around and walk back down the stairs",
-        "stairway"]
+        "go forward", "You open the door amd start to move into the a different room",
+        "livingroom"]
 
-    livingroom = ("As u go down the stairway, you see a livingroom.\n"
+    livingroom = ("As you leave the bathroom, you see a livingroom.\n"
               "All lights are turned off except for a small nightlight"
               "and your flashlight batteries have died.\n"
               "Once you step into the livingroom, you feel an evil presence near you.\n"
