@@ -5,6 +5,8 @@
 def main():
     # Commands that can be used any time.
     generalCommands = ["quit", "help"]
+    visitedLocations = []
+    score = 0
 
     # The format of a valid command is:
     # [command, what gets printed, the new location]
@@ -113,7 +115,38 @@ def main():
     locationCommands = [bedroomCommands, hallwayCommands, stairwayCommands,
                         streetCommands, winCommands, bathroomCommands]
 
+    def bedroom(visitedLocations, score):
+        return processCommand("bedroom", generalCommands, locations,
+                              locationDescriptions, locationCommands, score,
+                              visitedLocations)
+
+    def hallway(visitedLocations, score):
+        return processCommand("hallway", generalCommands, locations,
+                              locationDescriptions, locationCommands, score,
+                              visitedLocations)
+
+    def stairway(visitedLocations, score):
+        return processCommand("stairway", generalCommands, locations,
+                              locationDescriptions, locationCommands, score,
+                              visitedLocations)
+
+    def street(visitedLocations, score):
+        return processCommand("street", generalCommands, locations,
+                              locationDescriptions, locationCommands, score,
+                              visitedLocations)
+
+    def win(visitedLocations, score):
+        return processCommand("win", generalCommands, locations,
+                              locationDescriptions, locationCommands, score,
+                              visitedLocations)
+
+    def bathroom(visitedLocations, score):
+        return processCommand("bathroom", generalCommands, locations,
+                              locationDescriptions, locationCommands, score,
+                              visitedLocations)
+
     # Prints the welcome message
+
     def title():
         print("\n\n██▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄██ \n")
         print("Welcome to the Dark Zone")
@@ -149,18 +182,16 @@ def main():
     #
     # The format of a valid command is:
     # [command, what gets printed, the new location]
-    def processCommand(generalCommands, locations, locationDescriptions,
-                       locationCommands):
+    def processCommand(currentLocation, generalCommands, locations,
+                       locationDescriptions, locationCommands, score,
+                       visitedLocations):
         # Some initial stuff specific to this loop
-        score = 0
-        locationIndex = 0
         playGame = True
         validCommand = False
-        visitedLocations = []
 
         while playGame:
             # Should fire once every time entering a new location
-            currentLocation = locations[locationIndex]  # Simple string
+            locationIndex = locations.index(currentLocation)
             validCommands = locationCommands[locationIndex]
             print()
             print()
@@ -177,6 +208,7 @@ def main():
             if currentLocation == "win":
                 playGame = False
                 validCommand = True
+                return "quit", visitedLocations, score
 
             while not validCommand:
                 # Ask for a command until it is deemed valid enough.
@@ -186,6 +218,7 @@ def main():
                 if command == "quit":
                     playGame = False
                     validCommand = True
+                    return "quit", visitedLocations, score
 
                 # Prints out all possible commands for the location.
                 elif command == "help":
@@ -209,7 +242,7 @@ def main():
                         validCommand = True
                         # Sets the new location index to be the same as
                         # the new location.
-                        locationIndex = locations.index(validCommands[i+2])
+                        return validCommands[i+2], visitedLocations, score
                     command = ""
 
                 # Bug checker
@@ -232,8 +265,30 @@ def main():
 
     title()
 
-    processCommand(generalCommands, locations,
-                   locationDescriptions, locationCommands)
+    currentLocation = "bedroom"
+
+    while True:
+        if(currentLocation == "bedroom"):
+            currentLocation, visitedLocations, score = bedroom(
+                visitedLocations, score)
+        elif(currentLocation == "hallway"):
+            currentLocation, visitedLocations, score = hallway(
+                visitedLocations, score)
+        elif(currentLocation == "stairway"):
+            currentLocation, visitedLocations, score = stairway(
+                visitedLocations, score)
+        elif(currentLocation == "street"):
+            currentLocation, visitedLocations, score = street(
+                visitedLocations, score)
+        elif(currentLocation == "win"):
+            currentLocation, visitedLocations, score = win(
+                visitedLocations, score)
+            break
+        elif(currentLocation == "quit"):
+            break
+        elif(currentLocation == "bathroom"):
+            currentLocation, visitedLocations, score = bathroom(
+                visitedLocations, score)
 
     ending()
 
