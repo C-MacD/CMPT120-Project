@@ -54,35 +54,37 @@ def main():
 
     bathroom = ("All the doors upstairs are locked, except for a bathroom.\n"
                 "The door is propped open with a doorstop so you go in.\n"
-                "It appears to be empty." 
-                "On the other side of the bathroom you see another," 
+                "It appears to be empty."
+                "On the other side of the bathroom you see another,"
                 "which leads into the livingroom")
     bathroomCommands = [
         "search room", "You find absolutely nothing of interest except for\n"
         "the fact that someone seems to have stolen all the toilet paper.",
         None,
 
-        "go forward", "You open the door amd start to move into the a different room",
+        "go forward",
+        "You open the door amd start to move into the a different room",
         "livingroom"]
 
     livingroom = ("As you leave the bathroom, you see a livingroom.\n"
-              "All lights are turned off except for a small nightlight"
-              "and your flashlight batteries have died.\n"
-              "Once you step into the livingroom, you feel an evil presence near you.\n"
-              "The wind started to blow really hard that it sounded like someone is banging against the window.\n"
-              "As you try to flick the switch for the lights, you can't \n" 
-              "see where you are steping and trip on the leg of a table." )
+                  "All lights are turned off except for a small nightlight"
+                  "and your flashlight batteries have died.\n"
+                  "Once you step into the livingroom, you feel an evil \n"
+                  "presence near you. The wind started to blow really hard \n"
+                  "that it sounded like someone is banging against the \n"
+                  "window.\n"
+                  "As you try to flick the switch for the lights, you can't \n"
+                  "see where you are steping and trip on the leg of a table.")
     livingroomCommands = [
         "look around", "You heard banging on the windows so you take\n"
-        "out you knife but then you realize that it just the wind blowing hard"
-        , None, 
-        
-        "find light switch", "You find the light switch but you trip on\n" 
-        "the leg of the table" , None, 
-        
-        "go back", "You turn around and walk back to the stairs", 
+        "out your knife but then you realize that it just the wind blowing.",
+        None,
+
+        "find light switch", "You find the light switch but you trip on\n"
+        "the leg of the table", None,
+
+        "go back", "You turn around and walk back to the stairs",
         "stairway"]
-              
 
     street = ("You are standing in a street with nobody walking or no \n"
               "cars passing by. Only one light is on and it is flickering. \n"
