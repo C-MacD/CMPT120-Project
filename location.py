@@ -1,0 +1,11 @@
+class location():
+    def __init__(self, name):
+        self.name = name
+        self.description = ""
+        self.commands = {}
+
+    def addCommands(self, dictionary):
+        self.commands.update(dictionary)
+
+    def setDescription(self, description):
+        self.description = description
