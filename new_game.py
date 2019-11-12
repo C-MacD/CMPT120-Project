@@ -167,6 +167,7 @@ def main():
                 print()
 
         # TODO: use inventory
+        # Don't forget this is not a requirement.
         if(command == "inventory"):
             print("Here is what you have:")
             print(player1.getInventory())
@@ -213,7 +214,13 @@ def main():
             # Remove the command either way
             locationCommands.pop(key)
 
+        # A “time limit” by counting number of moves and checking for some max
+        player1.increaseMoves(1)
+        if(player1.getMoves() > player1.MAX_MOVES):
+            pass
         return True
+
+    # ------------------------
 
     playGame = True
     while(playGame):

@@ -10,6 +10,8 @@ class player():
         self.location = location
         self.visitedLocations = []
         self.newLocation = False
+        self.MAX_MOVES = 0  # TODO: Change this
+        self.moves = 0
 
     def setName(self, name):
         self.name = name
@@ -57,3 +59,9 @@ class player():
         for item in self.inventory:
             temp.append(item.getName())
         return temp
+
+    def getMoves(self):
+        return self.moves
+
+    def increaseMoves(self, num):
+        self.moves += num
