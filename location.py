@@ -9,7 +9,7 @@ class location():
 
     def setDescription(self, description):
         self.description = description
-    
+
     def getDescription(self):
         return self.description
 

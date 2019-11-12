@@ -1,5 +1,6 @@
 from player import player
 from location import location
+from item import itemClass
 
 
 def main():
@@ -25,10 +26,14 @@ def main():
 
     player1 = player()
     player1.setName(input("What is your name? "))
-    print("Hi " + player1.getName()+". Welcome to The Dark Zone.")
+    print("Hi " + player1.getName()+". Welcome to The Dark Zone.\n")
 
     # ----------------------------------------------------------
     # ----------------------------------------------------------
+
+    flashlight = itemClass(
+        "Flashlight", "You grab the flashlight, and turn it on.\n"
+        "Now you can see where you are going.", False, True)
 
     bedroom = location("bedroom")
     hallway = location("hallway")
@@ -47,8 +52,7 @@ def main():
 
     bedroom.addCommands(
         {"1. Open door": hallway,
-         "2. Equip flashlight": "You grab the flashlight, and turn it on.\n"
-         "Now you can see where you are going.",
+         "2. Equip flashlight": flashlight,
          "3. Jump": "You jump."
          })
 
@@ -73,16 +77,19 @@ def main():
 
     def gameLoop():
         currentLocation = player1.getLocation()
-        # Print location description
-        print(currentLocation.getDescription())
-        # Print possible commands (also inventory, help, quit)
-        # print(validCommands)
+        # Print location description if it is a new place.
+        if(player1.inNewLocation()):
+            print(currentLocation.getDescription())
+        # TODO: Print special case descriptions.
+
         print("\nWhat would you like to do?")
         locationCommands = currentLocation.getCommands()
         for item in locationCommands:
+            # Prints possible commands that will work in the location
             print(item)
         # Get command
         command = input("Enter a command: ")
+        print()
         # Check for being valid
         valid = False
         while(not valid):
@@ -91,56 +98,66 @@ def main():
                     for item in locationCommands:
                         if(str(command)in item):
                             valid = True
+                            key = item
                             value = locationCommands[item]
-            except:
+            except ValueError:
                 pass
             try:
                 if(command.lower() in validCommands):
                     command = command.lower()
                     valid = True
-            except:
+            except AttributeError:
                 pass
-            if(valid == False):
-                print(
-                    "Sorry, that is an invalid command.  You can enter 'help' for a list.")
+            if(not valid):
+                print("Sorry, that is an invalid command.  \n"
+                      "You can enter 'help' for a list.")
                 command = input("Enter a command: ")
+                print()
 
-        # If open inventory:
+        # TODO: open inventory
         if(command == "inventory"):
             print()
             # Print inventory
             # Get input
-        # If quit:
+
         elif(command == "quit"):
-            print()
+            # Quits
             return False
-            # Quit
-        # If help:
+
         elif(command == "help"):
+            # Prints help
             print(validCommands)
-            # Print help
-        # If points
+            # for item in locationCommands:
+            # print(item)
+
         elif(command == "points"):
+            # Prints points
             print("You have "+player1.getPoints()+" points!")
-            # Print points
-        # If map
+
+        # TODO: Print map
         elif(command == "map"):
             print()
             # Print map
 
         # If it is a room
         elif(type(value) == location):
+            # Go to that room
             goto(value)
 
-            # run goto function
         # If it is an item:
-        elif(type(value) == item):
+        elif(type(value) == itemClass):
             print()
-            # If it doesn't appear in inventory
+            # If it shouldn't appear in inventory
+            if(not value.shouldAppearInInventory()):
                 # Print message
-            # Else
+                print(value.getMessage())
+            else:
                 # Add to inventory
-            # Remove the command
+                player1.addItem(item)
+            # Remove the command either way
+            locationCommands.pop(key)
+
+        return True
 
     playGame = True
     while(playGame):

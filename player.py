@@ -8,6 +8,7 @@ class player():
         self.score = 0
         self.location = location
         self.visitedLocations = []
+        self.newLocation = False
 
     def setName(self, name):
         self.name = name
@@ -17,6 +18,8 @@ class player():
 
     def setLocation(self, location):
         self.location = location
+        if(self.location not in self.visitedLocations):
+            self.newLocation = True
         self.visitedLocations.append(location)
 
     def getLocation(self):
@@ -32,4 +35,18 @@ class player():
         self.score += amount
 
     def getPoints(self):
-        return self.score
+        return str(self.score)
+
+    def inNewLocation(self):
+        """Once this is called, it sets the location
+        to not being a new location.
+
+        Returns:
+            Bool -- True if new, False if visited before.
+        """
+        temp = self.newLocation
+        self.newLocation = False
+        return temp
+
+    def addItem(self, item):
+        self.inventory.append(item)
