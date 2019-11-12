@@ -1,4 +1,5 @@
 from location import location
+from item import itemClass
 
 
 class player():
@@ -50,3 +51,9 @@ class player():
 
     def addItem(self, item):
         self.inventory.append(item)
+
+    def getInventory(self):
+        temp = []
+        for item in self.inventory:
+            temp.append(item.getName())
+        return temp

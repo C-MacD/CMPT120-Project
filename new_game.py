@@ -34,6 +34,8 @@ def main():
     flashlight = itemClass(
         "Flashlight", "You grab the flashlight, and turn it on.\n"
         "Now you can see where you are going.", False, True)
+    knife = itemClass(
+        "Knife", "You grab the knife.  You feel slightly safer", True, False)
 
     bedroom = location("bedroom")
     hallway = location("hallway")
@@ -48,17 +50,67 @@ def main():
         "You are standing in a creepy old smelly \n"
         "bedroom filled with cockroaches crawling all over the \n"
         "bedsheets. You start to hear footsteps coming towards you.\n"
-        "There is a flashlight on the ground next to you")
+        "There is a flashlight on the ground next to you"
+    )
+    bedroom.addCommands({
+        "1. Open door": hallway,
+        "2. Equip flashlight": flashlight,
+        "3. Jump": "You jump."
+    })
 
-    bedroom.addCommands(
-        {"1. Open door": hallway,
-         "2. Equip flashlight": flashlight,
-         "3. Jump": "You jump."
-         })
+    hallway.setDescription(
+        "You run into a hallway. The walls are covered with claw \n"
+        "marks. Water is dripping from the ceiling. \n"
+        "Someone whispers to you and tells you to get out.\n"
+        "You see a knife in a corner"
+    )
+    hallway.addCommands({
+        "1. Equip knife": knife,
+        "2. Open door": stairway,
+        "3. Go back": bedroom
+    })
 
-    pointlessList = [bedroom.description, hallway.description,
-                     stairway.description, street.description,
-                     bathroom.description]
+    stairway.setDescription(
+        "You end up in a dark noisy staircase. Rats squeak and \n"
+        "voices scream at you, making you scared and terrified. \n"
+        "You tell yourself to find an exit but you are lost and \n"
+        "don't know which stairway can lead to the exit. \n"
+        "You see a little girl run down the stairway on your left."
+    )
+    stairway.addCommands({
+        "1. go left": street,
+        "2. go right": bathroom,
+        "3. go back": hallway
+    })
+
+    street.setDescription(
+        "You are standing in a street with nobody walking or no \n"
+        "cars passing by. Only one light is on and it is flickering. \n"
+        "The little girl you followed has led you outside. \n"
+        "The little girl is waiting for you on the other side of the \n"
+        "street. As you get closer, you reach out to her and check \n"
+        "if she is okay. The little girl slowly opens her mouth and \n"
+        "shows her sharp teeth and rips your arm off. \n"
+        "You are never seen again."
+    )
+    street.addCommands({})  # TODO: Win game
+
+    bathroom.setDescription(
+        "All the doors upstairs are locked, except for a bathroom.\n"
+        "The door is propped open with a doorstop so you go in.\n"
+        "It appears to be empty."
+        "On the other side of the bathroom you see another,"
+        "which leads into the livingroom"
+    )
+    bathroom.addCommands({
+        "1. Search room": "You find absolutely nothing of interest except \n"
+        "for the fact that someone seems to have stolen all the toilet paper.",
+        "2. Go back": stairway
+    })
+
+    pointlessList = [bedroom.getDescription(), hallway.getDescription(),
+                     stairway.getDescription(), street.getDescription(),
+                     bathroom.getDescription()]
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
@@ -114,10 +166,10 @@ def main():
                 command = input("Enter a command: ")
                 print()
 
-        # TODO: open inventory
+        # TODO: use inventory
         if(command == "inventory"):
-            print()
-            # Print inventory
+            print("Here is what you have:")
+            print(player1.getInventory())
             # Get input
 
         elif(command == "quit"):
@@ -139,6 +191,10 @@ def main():
             print()
             # Print map
 
+        # If it is a descriptive string
+        elif(type(value) == str):
+            print(value)
+
         # If it is a room
         elif(type(value) == location):
             # Go to that room
@@ -153,7 +209,7 @@ def main():
                 print(value.getMessage())
             else:
                 # Add to inventory
-                player1.addItem(item)
+                player1.addItem(value)
             # Remove the command either way
             locationCommands.pop(key)
 

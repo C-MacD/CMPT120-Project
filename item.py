@@ -10,3 +10,6 @@ class itemClass():
 
     def getMessage(self):
         return self.message
+
+    def getName(self):
+        return self.name
