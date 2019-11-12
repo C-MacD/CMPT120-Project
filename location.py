@@ -9,3 +9,9 @@ class location():
 
     def setDescription(self, description):
         self.description = description
+    
+    def getDescription(self):
+        return self.description
+
+    def getCommands(self):
+        return self.commands

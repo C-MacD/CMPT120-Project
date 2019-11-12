@@ -2,13 +2,6 @@ from player import player
 from location import location
 
 
-# for item in bedroom.commands:
-#     print(item)
-#     print(bedroom.commands[item])
-# print("1" in item)
-# print("2" in item)
-
-
 def main():
 
     def title():
@@ -64,47 +57,94 @@ def main():
                      bathroom.description]
     # ----------------------------------------------------------
     # ----------------------------------------------------------
-    
+
     def goto(location):
         if(not player1.hasVisited(location)):
             player1.increaseScore(5)
         player1.setLocation(location)
-        
+
     # ----------------------------------------------------------
     # ----------------------------------------------------------
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
     goto(bedroom)
+    validCommands = ["inventory", "help", "quit", "points", "map"]
 
     def gameLoop():
-        print(type(bedroom) is location)
-        #Print only location
-        #Print possible commands (also inventory, help, quit)
-        #Check for being valid (while loop)
-        #If it is a room
-            #run goto function
-        #If it is an item:
-            #If it doesn't appear in inventory
-                #Print message
-            #Else
-                #Add to inventory
-            #Remove the command
-        #If open inventory:
-            #Print inventory
-            #Get input
-        #If quit:
-            #Quit
-        #If help:
-            #Print help
-        #If points
-            #Print points
-        #If map
-            #Print map
+        currentLocation = player1.getLocation()
+        # Print location description
+        print(currentLocation.getDescription())
+        # Print possible commands (also inventory, help, quit)
+        # print(validCommands)
+        print("\nWhat would you like to do?")
+        locationCommands = currentLocation.getCommands()
+        for item in locationCommands:
+            print(item)
+        # Get command
+        command = input("Enter a command: ")
+        # Check for being valid
+        valid = False
+        while(not valid):
+            try:
+                if(type(int(command)) == int):
+                    for item in locationCommands:
+                        if(str(command)in item):
+                            valid = True
+                            value = locationCommands[item]
+            except:
+                pass
+            try:
+                if(command.lower() in validCommands):
+                    command = command.lower()
+                    valid = True
+            except:
+                pass
+            if(valid == False):
+                print(
+                    "Sorry, that is an invalid command.  You can enter 'help' for a list.")
+                command = input("Enter a command: ")
 
-    
+        # If open inventory:
+        if(command == "inventory"):
+            print()
+            # Print inventory
+            # Get input
+        # If quit:
+        elif(command == "quit"):
+            print()
+            return False
+            # Quit
+        # If help:
+        elif(command == "help"):
+            print(validCommands)
+            # Print help
+        # If points
+        elif(command == "points"):
+            print("You have "+player1.getPoints()+" points!")
+            # Print points
+        # If map
+        elif(command == "map"):
+            print()
+            # Print map
 
-    gameLoop()
+        # If it is a room
+        elif(type(value) == location):
+            goto(value)
+
+            # run goto function
+        # If it is an item:
+        elif(type(value) == item):
+            print()
+            # If it doesn't appear in inventory
+                # Print message
+            # Else
+                # Add to inventory
+            # Remove the command
+
+    playGame = True
+    while(playGame):
+        playGame = gameLoop()
 
     # ----------------------------------------------------------
     # ----------------------------------------------------------

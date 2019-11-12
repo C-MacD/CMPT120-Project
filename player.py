@@ -1,9 +1,12 @@
+from location import location
+
+
 class player():
     def __init__(self):
         self.name = "Player"
         self.inventory = []
         self.score = 0
-        self.location = None
+        self.location = location
         self.visitedLocations = []
 
     def setName(self, name):
@@ -27,3 +30,6 @@ class player():
 
     def increaseScore(self, amount):
         self.score += amount
+
+    def getPoints(self):
+        return self.score
