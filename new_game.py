@@ -42,7 +42,7 @@ def main():
     stairway = location("stairway")
     street = location("street")
     bathroom = location("bathroom")
-    # 6
+    closet = location("closet")
     # 7
     # 8
 
@@ -66,8 +66,9 @@ def main():
     )
     hallway.addCommands({
         "1. Equip knife": knife,
-        "2. Open door": stairway,
-        "3. Go back": bedroom
+        "2. Go forwards": stairway,
+        "3. Go right": closet,
+        "4. Go back": bedroom
     })
 
     stairway.setDescription(
@@ -108,9 +109,15 @@ def main():
         "2. Go back": stairway
     })
 
-    pointlessList = [bedroom.getDescription(), hallway.getDescription(),
-                     stairway.getDescription(), street.getDescription(),
-                     bathroom.getDescription()]
+    closet.setDescription(
+        "You are now in a small closet.  There is only one item: a jacket.\n"
+        "It looks like it could fit you."
+    )
+    closet.addCommands({
+        "1. Equip jacket": "You put on the jacket and start feeling warmer.",
+        "2. Leave room": hallway
+    })
+
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
@@ -132,13 +139,21 @@ def main():
         # Print location description if it is a new place.
         if(player1.inNewLocation()):
             print(currentLocation.getDescription())
+        else:
+            print("You are in the " + currentLocation.getName())
         # TODO: Print special case descriptions.
 
         print("\nWhat would you like to do?")
         locationCommands = currentLocation.getCommands()
         for item in locationCommands:
             # Prints possible commands that will work in the location
-            print(item)
+            # If they can go to a location that they have been to before,
+            # print the name of the location.
+            if(type(locationCommands[item]) == location
+               and player1.hasVisited(locationCommands[item])):
+                print(str(item)+" (" + locationCommands[item].getName()+")")
+            else:
+                print(item)
         # Get command
         command = input("Enter a command: ")
         print()
@@ -195,6 +210,7 @@ def main():
         # If it is a descriptive string
         elif(type(value) == str):
             print(value)
+            locationCommands.pop(key)
 
         # If it is a room
         elif(type(value) == location):
@@ -206,12 +222,12 @@ def main():
             print()
             # If it shouldn't appear in inventory
             if(not value.shouldAppearInInventory()):
-                # Print message
-                print(value.getMessage())
+                pass
             else:
                 # Add to inventory
                 player1.addItem(value)
             # Remove the command either way
+            print(value.getMessage())
             locationCommands.pop(key)
 
         # A “time limit” by counting number of moves and checking for some max

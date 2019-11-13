@@ -15,3 +15,6 @@ class location():
 
     def getCommands(self):
         return self.commands
+
+    def getName(self):
+        return self.name
