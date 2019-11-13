@@ -226,10 +226,19 @@ def main():
             # Prints points
             print("You have "+player1.getPoints()+" points!")
 
-        # TODO: Print map
+        # Prints a simple map
         elif(command == "map"):
-            print()
-            # Print map
+            print("""
+         Office
+            |
+          Shop
+            |
+         Street - Stairs - Bathroom
+                     |
+                  Hallway - Closet
+                     |
+                  Bedroom
+                  """)
 
         # If it is a descriptive string
         elif(type(value) == str):
