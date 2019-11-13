@@ -167,7 +167,7 @@ def main():
             print("[You are in the " + currentLocation.getName()+"]")
         # TODO: Print special case descriptions.
 
-        print("\nWhat would you like to do?")
+        print("\nWhat would you like to do, "+player1.getName()+"?")
         locationCommands = currentLocation.getCommands()
         for item in locationCommands:
             # Prints possible commands that will work in the location
@@ -208,7 +208,7 @@ def main():
         # TODO: use inventory
         # Don't forget this is not a requirement.
         if(command == "inventory"):
-            print("Here is what you have:")
+            print(player1.getName()+", here is what you have:")
             print(player1.getInventory())
             # Get input
 
@@ -224,7 +224,8 @@ def main():
 
         elif(command == "points"):
             # Prints points
-            print("You have "+player1.getPoints()+" points!")
+            print(player1.getName()+", you have " +
+                  player1.getPoints()+" points!")
 
         # Prints a simple map
         elif(command == "map"):
