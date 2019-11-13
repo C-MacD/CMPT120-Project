@@ -37,14 +37,15 @@ def main():
     knife = itemClass(
         "Knife", "You grab the knife.  You feel slightly safer", True, False)
 
+    # TODO: Win game
     bedroom = location("bedroom")
     hallway = location("hallway")
     stairway = location("stairway")
     street = location("street")
     bathroom = location("bathroom")
     closet = location("closet")
-    # 7
-    # 8
+    shop = location("shop")
+    office = location("office")
 
     bedroom.setDescription(
         "You are standing in a creepy old smelly \n"
@@ -75,33 +76,33 @@ def main():
         "You end up in a dark noisy staircase. Rats squeak and \n"
         "voices scream at you, making you scared and terrified. \n"
         "You tell yourself to find an exit but you are lost and \n"
-        "don't know which stairway can lead to the exit. \n"
-        "You see a little girl run down the stairway on your left."
+        "don't know which stairway can lead to the exit."
     )
     stairway.addCommands({
-        "1. go left": street,
-        "2. go right": bathroom,
-        "3. go back": hallway
+        "1. Go left, down the stairs": street,
+        "2. Go right, up the stairs": bathroom,
+        "3. Go back": hallway
     })
 
     street.setDescription(
-        "You are standing in a street with nobody walking or no \n"
+        "You are standing in a street with nobody walking and no \n"
         "cars passing by. Only one light is on and it is flickering. \n"
-        "The little girl you followed has led you outside. \n"
-        "The little girl is waiting for you on the other side of the \n"
-        "street. As you get closer, you reach out to her and check \n"
-        "if she is okay. The little girl slowly opens her mouth and \n"
-        "shows her sharp teeth and rips your arm off. \n"
-        "You are never seen again."
+        "The road is littered with debris, making it potentially impossible\n"
+        "to cross.  A few feet down the sidewalk you are standing on,\n"
+        "there is an open door."
     )
-    street.addCommands({})  # TODO: Win game
+    street.addCommands({
+        "1. Try to cross street":
+            "The debris prove to be too hard to navigate\n"
+            "and you can't find a way across.",
+        "2. Go in the open door": shop,
+        "3. Go back": stairway
+    })
 
     bathroom.setDescription(
         "All the doors upstairs are locked, except for a bathroom.\n"
         "The door is propped open with a doorstop so you go in.\n"
         "It appears to be empty."
-        "On the other side of the bathroom you see another,"
-        "which leads into the livingroom"
     )
     bathroom.addCommands({
         "1. Search room": "You find absolutely nothing of interest except \n"
@@ -116,6 +117,29 @@ def main():
     closet.addCommands({
         "1. Equip jacket": "You put on the jacket and start feeling warmer.",
         "2. Leave room": hallway
+    })
+
+    shop.setDescription(
+        "You are in a looted grocery store.  All the shelves that you can\n"
+        "see are empty.  You spot another door in the back."
+    )
+    shop.addCommands({
+        "1. Search store":
+            "You wander around.  All the shelves are indeed empty.\n"
+            "The door in the back looks like it leads to an office.",
+        "2. Open door": office,
+        "3. Go back": street
+    })
+
+    office.setDescription(
+        "The door opens up into a small room.  It is the store's office.\n"
+        "You see a safe with the door open and contents missing.\n"
+        "Other than that, the rest of the office is strangely untouched.\n"
+        "There is a small cot in one corner of the room."
+    )
+    office.addCommands({
+        "1. Sleep": "Congrats! You made it to the end.\n"
+                    "Enter 'points' to see your score and 'quit' to exit."
     })
 
     # ----------------------------------------------------------
@@ -140,7 +164,7 @@ def main():
         if(player1.inNewLocation()):
             print(currentLocation.getDescription())
         else:
-            print("You are in the " + currentLocation.getName())
+            print("[You are in the " + currentLocation.getName()+"]")
         # TODO: Print special case descriptions.
 
         print("\nWhat would you like to do?")
