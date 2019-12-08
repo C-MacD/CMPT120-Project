@@ -32,10 +32,15 @@ def main():
     # ----------------------------------------------------------
 
     flashlight = Item(
-        "Flashlight", "You grab the flashlight, and turn it on.\n"
-        "Now you can see where you are going.", -1)
+        "Flashlight", -1, "You grab the flashlight, and turn it on.\n"
+        "Now you can see where you are going.",
+        "The flashlight lights up the room")
     knife = Item(
-        "Knife", "You grab the knife.  You feel slightly safer", -1)
+        "Knife", -1, "You grab the knife.  You feel slightly safer",
+        "You swing the knife.")
+    waterBottle = Item(
+        "Water bottle", 1, "You grab the water bottle.",
+        "You drink the water and feel refreshed.")
 
     # TODO: Win game
     bedroom = Location("bedroom")
@@ -49,6 +54,7 @@ def main():
 
     bedroom.addItem(flashlight)
     hallway.addItem(knife)
+    shop.addItem(waterBottle)
 
     bedroom.setDescription(
         "You are standing in a creepy old smelly \n"
@@ -124,14 +130,16 @@ def main():
 
     shop.setDescription(
         "You are in a looted grocery store.  All the shelves that you can\n"
-        "see are empty.  You spot another door in the back."
+        "see are empty, but you spot a bottle that has rolled under a shelf.\n"
+        "You see another door in the back."
     )
     shop.addCommands({
         "1. Search store":
             "You wander around.  All the shelves are indeed empty.\n"
             "The door in the back looks like it leads to an office.",
         "2. Open door": office,
-        "3. Go back": street
+        "3. Go back": street,
+        "4. Take water bottle": waterBottle
     })
 
     office.setDescription(
@@ -159,7 +167,8 @@ def main():
     # ----------------------------------------------------------
 
     goto(bedroom)
-    validCommands = ["inventory", "help", "quit", "points", "map"]
+    validCommands = ["search", "s", "inventory", "i",
+                     "help", "quit", "points", "map"]
 
     def gameLoop():
         currentLocation = player1.getLocation()
@@ -179,7 +188,8 @@ def main():
             if(type(locationCommands[item]) == Location
                and player1.hasVisited(locationCommands[item])):
                 print(str(item)+" (" + locationCommands[item].getName()+")")
-            else:
+            elif(currentLocation.getSearched()
+                 or not type(locationCommands[item]) == Item):
                 print(item)
 
         # Get command
@@ -192,9 +202,11 @@ def main():
                 if(type(int(command)) == int):
                     for item in locationCommands:
                         if(str(command)in item):
-                            valid = True
-                            key = item
-                            value = locationCommands[item]
+                            if(currentLocation.getSearched()
+                               or not type(locationCommands[item]) == Item):
+                                valid = True
+                                key = item
+                                value = locationCommands[item]
 
             except ValueError:
                 pass
@@ -210,12 +222,46 @@ def main():
                 command = input("Enter a command: ")
                 print()
 
-        # TODO: use inventory
-        # Don't forget this is not a requirement.
-        if(command == "inventory"):
+        # Player can use stuff in their inventory.
+        if(command == "inventory" or command == "i"):
             print(player1.getName()+", here is what you have:")
-            print(player1.getInventory())
-            # Get input
+            i = 1
+            print("0. Exit inventory.")
+            for item in player1.getInventory():
+                print(str(i) + ".", item)
+                i += 1
+            cmd = input("What item do you want to use? ")
+            while(not cmd.isdigit()):
+                print("Please enter an integer.  Enter 0 to exit inventory.")
+                cmd = input("What item do you want to use? ")
+            cmd = int(cmd)
+            if(cmd == 0 or cmd > len(player1.getInventory())):
+                pass
+            else:
+                index = cmd-1
+                selectedItem = Item  # Ignore
+                selectedItem = player1.inventory[index]
+                selectedItem.useItem()
+                if(selectedItem.getUses() == 0):
+                    player1.inventory.remove(selectedItem)
+
+        elif(command == "search" or command == "s"):
+            currentLocation.search()
+            print("You search the room.")
+            if(len(currentLocation.items) == 0):
+                print("You didn't find any new items.")
+            else:
+                print("You found ", end="")
+                i = 1
+                for item in currentLocation.getItems():
+                    if(len(currentLocation.getItems()) == 1):
+                        print("a", item.getName())
+                    elif(i == len(currentLocation.getItems())):
+                        print("and a", item.getName()+".")
+                    else:
+                        print("a", item.getName()+", ", end="")
+                    i += 1
+                print()
 
         elif(command == "quit"):
             # Quits
@@ -267,7 +313,7 @@ def main():
                 player1.addItem(value)
                 currentLocation.removeItem(value)
             # Remove the command either way
-            print(value.getMessage())
+            print(value.getPickupMessage())
             locationCommands.pop(key)
 
         # A “time limit” by counting number of moves and checking for some max

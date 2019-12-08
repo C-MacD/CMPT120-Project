@@ -27,7 +27,9 @@ class Location():
 
     def search(self):
         self.wasSearched = True
-        return self.items
+
+    def getSearched(self):
+        return self.wasSearched
 
     def addItem(self, item):
         self.items.append(item)
