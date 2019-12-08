@@ -1,6 +1,6 @@
-from player import player
-from location import location
-from item import itemClass
+from player import Player
+from location import Location
+from item import Item
 
 
 def main():
@@ -24,28 +24,31 @@ def main():
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
-    player1 = player()
+    player1 = Player()
     player1.setName(input("What is your name? "))
     print("Hi " + player1.getName()+". Welcome to The Dark Zone.\n")
 
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
-    flashlight = itemClass(
+    flashlight = Item(
         "Flashlight", "You grab the flashlight, and turn it on.\n"
-        "Now you can see where you are going.", False, True)
-    knife = itemClass(
-        "Knife", "You grab the knife.  You feel slightly safer", True, False)
+        "Now you can see where you are going.", -1)
+    knife = Item(
+        "Knife", "You grab the knife.  You feel slightly safer", -1)
 
     # TODO: Win game
-    bedroom = location("bedroom")
-    hallway = location("hallway")
-    stairway = location("stairway")
-    street = location("street")
-    bathroom = location("bathroom")
-    closet = location("closet")
-    shop = location("shop")
-    office = location("office")
+    bedroom = Location("bedroom")
+    hallway = Location("hallway")
+    stairway = Location("stairway")
+    street = Location("street")
+    bathroom = Location("bathroom")
+    closet = Location("closet")
+    shop = Location("shop")
+    office = Location("office")
+
+    bedroom.addItem(flashlight)
+    hallway.addItem(knife)
 
     bedroom.setDescription(
         "You are standing in a creepy old smelly \n"
@@ -173,11 +176,12 @@ def main():
             # Prints possible commands that will work in the location
             # If they can go to a location that they have been to before,
             # print the name of the location.
-            if(type(locationCommands[item]) == location
+            if(type(locationCommands[item]) == Location
                and player1.hasVisited(locationCommands[item])):
                 print(str(item)+" (" + locationCommands[item].getName()+")")
             else:
                 print(item)
+
         # Get command
         command = input("Enter a command: ")
         print()
@@ -191,6 +195,7 @@ def main():
                             valid = True
                             key = item
                             value = locationCommands[item]
+
             except ValueError:
                 pass
             try:
@@ -247,19 +252,20 @@ def main():
             locationCommands.pop(key)
 
         # If it is a room
-        elif(type(value) == location):
+        elif(type(value) == Location):
             # Go to that room
             goto(value)
 
         # If it is an item:
-        elif(type(value) == itemClass):
+        elif(type(value) == Item):
             print()
             # If it shouldn't appear in inventory
-            if(not value.shouldAppearInInventory()):
+            if(value.getUses() == 0):
                 pass
             else:
                 # Add to inventory
                 player1.addItem(value)
+                currentLocation.removeItem(value)
             # Remove the command either way
             print(value.getMessage())
             locationCommands.pop(key)

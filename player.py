@@ -1,13 +1,13 @@
-from location import location
-from item import itemClass
+from location import Location
+from item import Item
 
 
-class player():
+class Player():
     def __init__(self):
         self.name = "Player"
         self.inventory = []
         self.score = 0
-        self.location = location
+        self.location = Location
         self.visitedLocations = []
         self.newLocation = False
         self.MAX_MOVES = 0  # TODO: Change this
