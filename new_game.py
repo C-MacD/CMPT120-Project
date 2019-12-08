@@ -265,7 +265,7 @@ def main():
 
         elif(command == "quit"):
             # Quits
-            return False
+            return "Kill"
 
         elif(command == "help"):
             # Prints help
@@ -320,13 +320,20 @@ def main():
         player1.increaseMoves(1)
         if(player1.getMoves() > player1.MAX_MOVES):
             pass
-        return True
+
+        if(currentLocation == office):
+            return "Win"
+        else:
+            return "True"
 
     # ------------------------
 
-    playGame = True
-    while(playGame):
+    playGame = "True"
+    while(playGame == "True"):
         playGame = gameLoop()
+
+        if(playGame == "Kill"):
+            return False
 
     # ----------------------------------------------------------
     # ----------------------------------------------------------
@@ -344,5 +351,13 @@ def main():
 
     ending()
 
+    playAgain = input("Want to play again? Yes or no: ")
+    if("y" in str(playAgain).lower()):
+        return True
+    else:
+        return False
 
-main()
+
+go = True
+while (go):
+    go = main()
