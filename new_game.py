@@ -41,6 +41,9 @@ def main():
     waterBottle = Item(
         "Water bottle", 1, "You grab the water bottle.",
         "You drink the water and feel refreshed.")
+    jacket = Item("Warm jacket", -1,
+                  "You put on the jacket and start feeling warmer.",
+                  "The jacket is warm.")
 
     # TODO: Win game
     bedroom = Location("bedroom")
@@ -55,6 +58,7 @@ def main():
     bedroom.addItem(flashlight)
     hallway.addItem(knife)
     shop.addItem(waterBottle)
+    closet.addItem(jacket)
 
     bedroom.setDescription(
         "You are standing in a creepy old smelly \n"
@@ -64,7 +68,7 @@ def main():
     )
     bedroom.addCommands({
         "1. Open door": hallway,
-        "2. Equip flashlight": flashlight,
+        "2. Take flashlight": flashlight,
         "3. Jump": "You jump."
     })
 
@@ -75,7 +79,7 @@ def main():
         "You see a knife in a corner"
     )
     hallway.addCommands({
-        "1. Equip knife": knife,
+        "1. Take knife": knife,
         "2. Go forwards": stairway,
         "3. Go right": closet,
         "4. Go back": bedroom
@@ -124,7 +128,7 @@ def main():
         "It looks like it could fit you."
     )
     closet.addCommands({
-        "1. Equip jacket": "You put on the jacket and start feeling warmer.",
+        "1. Take jacket": jacket,
         "2. Leave room": hallway
     })
 
