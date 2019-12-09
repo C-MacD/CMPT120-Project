@@ -148,8 +148,7 @@ def main():
         "There is a small cot in one corner of the room."
     )
     office.addCommands({
-        "1. Sleep": "Congrats! You made it to the end.\n"
-                    "Enter 'points' to see your score and 'quit' to exit."
+        "1. Sleep": ""
     })
 
     # ----------------------------------------------------------
@@ -324,7 +323,43 @@ def main():
             pass
 
         if(currentLocation == office):
-            return "Win"
+            print("Suddenly, a zombie jumps out at you from behind the\n"
+                  "office's desk.\n"
+                  "It stumbles towards you, arms reaching for you.\n"
+                  "You have no time to turn around and open the door\n"
+                  "behind you, because the zombie would attack your back.\n"
+                  "Your only choice is to attack the zombie.")
+            if("Knife" in player1.getInventory()):
+                print("1. Stab the zombie with your knife.")
+                input("(Press enter to use the knife)")
+                print()
+                print("You stab the zombie in the head and leave the knife\n"
+                      "in its head.  The zombie reaches for you, but you\n"
+                      "avoid it.  The zombie takes half a step forwards\n"
+                      "and freezes in place."
+                      "It collapses onto the ground and stops moving.")
+                print("------------------")
+                print("Congratulations!  Your knife has saved you.\n"
+                      "You have won the game!!!")
+                print()
+                input("Press enter to continue")
+                return "Win"
+            else:
+                print("1. Punch the zombie.")
+                input("(Press enter to punch)")
+                print()
+                print("You give the zombie a solid punch, but it manages to\n"
+                      "grab your hand and bite your arm.\n"
+                      "You have been infected.\n"
+                      "You collapse to the ground and your vision\n"
+                      "fades to black.\n"
+                      "Your last thought is you wondering what would have\n"
+                      "happened if you had a weapon to defend yourself with.")
+                print("------------------")
+                print("You loose.")
+                print()
+                input("Press enter to continue")
+                return "Loose"
         else:
             return "True"
 
@@ -348,8 +383,8 @@ def main():
         print("\nThanks for playing. \n")
         print("Copyright 2019.  \n"
               "Email the author at Colin.MacDonald1[at]marist.edu")
+        print("------------------")
         print()
-        print("██▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄██ ")
 
     ending()
 
