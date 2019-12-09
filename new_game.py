@@ -24,6 +24,7 @@ def main():
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
+    # Player setup.
     player1 = Player()
     player1.setName(input("What is your name? "))
     print("Hi " + player1.getName()+". Welcome to The Dark Zone.\n")
@@ -31,6 +32,7 @@ def main():
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
+    # Create items.
     flashlight = Item(
         "Flashlight", -1, "You grab the flashlight, and turn it on.\n"
         "Now you can see where you are going.",
@@ -45,7 +47,7 @@ def main():
                   "You put on the jacket and start feeling warmer.",
                   "The jacket is warm.")
 
-    # TODO: Win game
+    # Create rooms.
     bedroom = Location("bedroom")
     hallway = Location("hallway")
     stairway = Location("stairway")
@@ -55,11 +57,13 @@ def main():
     shop = Location("shop")
     office = Location("office")
 
+    # Add items to rooms.
     bedroom.addItem(flashlight)
     hallway.addItem(knife)
     shop.addItem(waterBottle)
     closet.addItem(jacket)
 
+    # Add descriptions and commands to rooms.
     bedroom.setDescription(
         "You are standing in a creepy old smelly \n"
         "bedroom filled with cockroaches crawling all over the \n"
@@ -148,12 +152,13 @@ def main():
         "There is a small cot in one corner of the room."
     )
     office.addCommands({
-        "1. Sleep": ""
+        "1. Sleep in the cot": ""
     })
 
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
+    # Move player to a location and increase score if needed.
     def goto(location):
         if(not player1.hasVisited(location)):
             player1.increaseScore(5)
@@ -164,18 +169,22 @@ def main():
     # ----------------------------------------------------------
     # ----------------------------------------------------------
 
+    # Initial location.
     goto(bedroom)
+    # General commands that will work anywhere.
     validCommands = ["search", "s", "inventory", "i", "use",
                      "look around", "help", "quit", "points", "map"]
 
+    # The main game loop.
     def gameLoop():
+
+        # ---------- Show information to player
         currentLocation = player1.getLocation()
         # Print location description if it is a new place.
         if(player1.inNewLocation()):
             print(currentLocation.getDescription())
         else:
             print("[You are in the " + currentLocation.getName()+"]")
-        # TODO: Print special case descriptions.
 
         print("\nWhat would you like to do, "+player1.getName()+"?")
         locationCommands = currentLocation.getCommands()
@@ -186,11 +195,12 @@ def main():
             if(type(locationCommands[item]) == Location
                and player1.hasVisited(locationCommands[item])):
                 print(str(item)+" (" + locationCommands[item].getName()+")")
+            # Prints items that can be picked up only if room is searched.
             elif(currentLocation.getSearched()
                  or not type(locationCommands[item]) == Item):
                 print(item)
 
-        # Get command
+        # -------------- Get command
         command = input("Enter a command: ")
         print()
         # Check for being valid
@@ -202,53 +212,68 @@ def main():
                         if(str(command)in item):
                             if(currentLocation.getSearched()
                                or not type(locationCommands[item]) == Item):
+                                # Checks for being intiger.
+                                # Checks for being a room.
+                                # Checks for room searched if item.
                                 valid = True
                                 key = item
                                 value = locationCommands[item]
-
             except ValueError:
                 pass
+
             try:
                 if(command.lower() in validCommands):
+                    # If it is a standard command.
                     command = command.lower()
                     valid = True
             except AttributeError:
                 pass
+
             if(not valid):
+                # Invalid commands.
                 print("Sorry, that is an invalid command.  \n"
                       "You can enter 'help' for a list.")
                 command = input("Enter a command: ")
                 print()
 
+        # ---------------Responces to standard commands
+
         # Player can use stuff in their inventory.
         if(command == "inventory" or command == "i" or command == "use"):
+            # First print what is available.
             print(player1.getName()+", here is what you have:")
             i = 1
             print("0. (Exit inventory)")
             for item in player1.getInventory():
                 print(str(i) + ".", item)
                 i += 1
+
+            # Get input until valid
             cmd = input("What item do you want to use? ")
             while(not cmd.isdigit()):
                 print("Please enter an integer.  Enter 0 to exit inventory.")
                 cmd = input("What item do you want to use? ")
             cmd = int(cmd)
+
+            # Check if number refers to something.
             if(cmd == 0 or cmd > len(player1.getInventory())):
                 pass
             else:
+                # If an item is selected, use it.
                 index = cmd-1
-                selectedItem = Item  # Ignore
                 selectedItem = player1.inventory[index]
                 selectedItem.useItem()
                 if(selectedItem.getUses() == 0):
                     player1.inventory.remove(selectedItem)
 
+        # Search the room.
         elif(command == "search" or command == "s"):
             currentLocation.search()
             print("You search the room.")
             if(len(currentLocation.items) == 0):
                 print("You didn't find any new items.")
             else:
+                # Fancy print formatting for finding multiple things.
                 print("You found ", end="")
                 i = 1
                 for item in currentLocation.getItems():
@@ -268,8 +293,6 @@ def main():
         elif(command == "help"):
             # Prints help
             print(validCommands)
-            # for item in locationCommands:
-            # print(item)
 
         elif(command == "points"):
             # Prints points
@@ -277,6 +300,7 @@ def main():
                   player1.getPoints()+" points!")
 
         elif(command == "look around"):
+            # Prints the room's long description.
             print(currentLocation.getDescription())
 
         # Prints a simple map
@@ -293,8 +317,9 @@ def main():
                   Bedroom
                   """)
 
-        # If it is a descriptive string
+        # If it is a descriptive string (only a string and not an object)
         elif(type(value) == str):
+            # Print the description and remove it from the list.
             print(value)
             locationCommands.pop(key)
 
@@ -310,19 +335,23 @@ def main():
             if(value.getUses() == 0):
                 pass
             else:
-                # Add to inventory
+                # Add to inventory, remove from location.
                 player1.addItem(value)
                 currentLocation.removeItem(value)
-            # Remove the command either way
+            # Print pickup message, remove from command list.
             print(value.getPickupMessage())
             locationCommands.pop(key)
 
         # A “time limit” by counting number of moves and checking for some max
+        # Currently does nothing.
         player1.increaseMoves(1)
         if(player1.getMoves() > player1.MAX_MOVES):
             pass
 
+        # If in the office, run the win/loose scenario.
+        # Must bring knife to office to win, otherwise you loose.
         if(currentLocation == office):
+            # Setting the scene.
             print("Suddenly, a zombie jumps out at you from behind the\n"
                   "office's desk.\n"
                   "It stumbles towards you, arms reaching for you.\n"
@@ -330,13 +359,14 @@ def main():
                   "behind you, because the zombie would attack your back.\n"
                   "Your only choice is to attack the zombie.")
             if("Knife" in player1.getInventory()):
+                # Brought knife, win
                 print("1. Stab the zombie with your knife.")
                 input("(Press enter to use the knife)")
                 print()
                 print("You stab the zombie in the head and leave the knife\n"
                       "in its head.  The zombie reaches for you, but you\n"
                       "avoid it.  The zombie takes half a step forwards\n"
-                      "and freezes in place."
+                      "and freezes in place.\n"
                       "It collapses onto the ground and stops moving.")
                 print("------------------")
                 print("Congratulations!  Your knife has saved you.\n"
@@ -345,6 +375,7 @@ def main():
                 input("Press enter to continue")
                 return "Win"
             else:
+                # No knife, loose.
                 print("1. Punch the zombie.")
                 input("(Press enter to punch)")
                 print()
@@ -361,15 +392,18 @@ def main():
                 input("Press enter to continue")
                 return "Loose"
         else:
+            # Continue normal playing if in any other room.
             return "True"
 
     # ------------------------
 
+    # The game loop (getting commands and stuff)
     playGame = "True"
     while(playGame == "True"):
         playGame = gameLoop()
 
         if(playGame == "Kill"):
+            # If quit is entered.
             return False
 
     # ----------------------------------------------------------
@@ -388,6 +422,7 @@ def main():
 
     ending()
 
+    # Ask to play again.
     playAgain = input("Want to play again? Yes or no: ")
     if("y" in str(playAgain).lower()):
         return True
@@ -395,6 +430,7 @@ def main():
         return False
 
 
+# Will play the game forever until false is returned.
 go = True
 while (go):
     go = main()

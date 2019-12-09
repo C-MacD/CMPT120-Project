@@ -24,4 +24,6 @@ class Item():
         else:
             self.numUses -= 1
 
+        print()
         print(self.useMessage)
+        print()

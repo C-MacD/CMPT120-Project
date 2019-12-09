@@ -10,7 +10,7 @@ class Player():
         self.location = Location
         self.visitedLocations = []
         self.newLocation = False
-        self.MAX_MOVES = 0  # TODO: Change this
+        self.MAX_MOVES = 0
         self.moves = 0
 
     def setName(self, name):
