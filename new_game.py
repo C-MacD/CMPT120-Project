@@ -63,8 +63,7 @@ def main():
     bedroom.setDescription(
         "You are standing in a creepy old smelly \n"
         "bedroom filled with cockroaches crawling all over the \n"
-        "bedsheets. You start to hear footsteps coming towards you.\n"
-        "There is a flashlight on the ground next to you"
+        "bedsheets. You start to hear footsteps coming towards you."
     )
     bedroom.addCommands({
         "1. Open door": hallway,
@@ -75,8 +74,7 @@ def main():
     hallway.setDescription(
         "You run into a hallway. The walls are covered with claw \n"
         "marks. Water is dripping from the ceiling. \n"
-        "Someone whispers to you and tells you to get out.\n"
-        "You see a knife in a corner"
+        "Someone whispers to you and tells you to get out."
     )
     hallway.addCommands({
         "1. Take knife": knife,
@@ -118,14 +116,13 @@ def main():
         "It appears to be empty."
     )
     bathroom.addCommands({
-        "1. Search room": "You find absolutely nothing of interest except \n"
+        "1. Examine room": "You find absolutely nothing of interest except \n"
         "for the fact that someone seems to have stolen all the toilet paper.",
         "2. Go back": stairway
     })
 
     closet.setDescription(
-        "You are now in a small closet.  There is only one item: a jacket.\n"
-        "It looks like it could fit you."
+        "You are now in a small closet.  Only one thing is hung up."
     )
     closet.addCommands({
         "1. Take jacket": jacket,
@@ -134,16 +131,14 @@ def main():
 
     shop.setDescription(
         "You are in a looted grocery store.  All the shelves that you can\n"
-        "see are empty, but you spot a bottle that has rolled under a shelf.\n"
-        "You see another door in the back."
+        "see are empty.  You spot another door in the back.\n"
+        "You wander around.  All the shelves are indeed empty.\n"
+        "The door in the back looks like it leads to an office."
     )
     shop.addCommands({
-        "1. Search store":
-            "You wander around.  All the shelves are indeed empty.\n"
-            "The door in the back looks like it leads to an office.",
-        "2. Open door": office,
-        "3. Go back": street,
-        "4. Take water bottle": waterBottle
+        "1. Open door": office,
+        "2. Go back": street,
+        "3. Take water bottle": waterBottle
     })
 
     office.setDescription(
@@ -171,8 +166,8 @@ def main():
     # ----------------------------------------------------------
 
     goto(bedroom)
-    validCommands = ["search", "s", "inventory", "i",
-                     "help", "quit", "points", "map"]
+    validCommands = ["search", "s", "inventory", "i", "use",
+                     "look around", "help", "quit", "points", "map"]
 
     def gameLoop():
         currentLocation = player1.getLocation()
@@ -227,10 +222,10 @@ def main():
                 print()
 
         # Player can use stuff in their inventory.
-        if(command == "inventory" or command == "i"):
+        if(command == "inventory" or command == "i" or command == "use"):
             print(player1.getName()+", here is what you have:")
             i = 1
-            print("0. Exit inventory.")
+            print("0. (Exit inventory)")
             for item in player1.getInventory():
                 print(str(i) + ".", item)
                 i += 1
@@ -281,6 +276,9 @@ def main():
             # Prints points
             print(player1.getName()+", you have " +
                   player1.getPoints()+" points!")
+
+        elif(command == "look around"):
+            print(currentLocation.getDescription())
 
         # Prints a simple map
         elif(command == "map"):

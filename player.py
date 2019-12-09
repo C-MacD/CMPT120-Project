@@ -51,6 +51,7 @@ class Player():
         self.newLocation = False
         return temp
 
+    # Take item
     def addItem(self, item):
         self.inventory.append(item)
 
@@ -65,3 +66,9 @@ class Player():
 
     def increaseMoves(self, num):
         self.moves += num
+
+    def useItem(self, item):
+        Item.useItem(item)
+
+    def dropItem(self, item):
+        self.inventory.remove(item)
