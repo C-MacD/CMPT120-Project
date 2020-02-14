@@ -1,16 +1,16 @@
-from location import location
-from item import itemClass
+from location import Location
+from item import Item
 
 
-class player():
+class Player():
     def __init__(self):
         self.name = "Player"
         self.inventory = []
         self.score = 0
-        self.location = location
+        self.location = Location
         self.visitedLocations = []
         self.newLocation = False
-        self.MAX_MOVES = 0  # TODO: Change this
+        self.MAX_MOVES = 0
         self.moves = 0
 
     def setName(self, name):
@@ -51,6 +51,7 @@ class player():
         self.newLocation = False
         return temp
 
+    # Take item
     def addItem(self, item):
         self.inventory.append(item)
 
@@ -65,3 +66,9 @@ class player():
 
     def increaseMoves(self, num):
         self.moves += num
+
+    def useItem(self, item):
+        Item.useItem(item)
+
+    def dropItem(self, item):
+        self.inventory.remove(item)
